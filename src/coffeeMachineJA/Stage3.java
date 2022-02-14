@@ -37,9 +37,6 @@ import java.util.Scanner;
 
 public class Stage3 {
 
-	final static int WATER_PER_CUP = 200; // 200 ml
-	final static byte MILK_PER_CUP = 50; // 50 mL
-	final static byte COFFEE_PER_CUP = 15; // 15g
 	final static int[] INGREDIENT_PER_CUP = {200, 50, 15}; //water milk coffee
 	final static byte NB_INGREDIENTS = 3; // water, milk, coffee
 	final static String[] INGREDIENTS_S = {
@@ -61,7 +58,7 @@ public class Stage3 {
 		getIngredients(ingredients);
 		int nbCups = getNbCups();
 		
-		printIngredients(nbCups);
+		analyseRequest(ingredients, nbCups);
 		
 
 		scanner.close();
@@ -104,21 +101,27 @@ public class Stage3 {
 	
 	
 	public static void analyseRequest(int[] ingredients, int nbCups) {
-		int[] needs = new int[NB_INGREDIENTS];
+		int[] nbCupsFeasible = new int[NB_INGREDIENTS];
+		int nbCupsMax = 0;
 		for (int i = 0; i < NB_INGREDIENTS; i++) {
-			needs[i] = INGREDIENT_PER_CUP[i] * nbCups;
+			nbCupsFeasible[i] = INGREDIENT_PER_CUP[i] == 0 
+					? 0
+					: ingredients[i] / INGREDIENT_PER_CUP[i];
+			if (i == 0 || nbCupsFeasible[i] < nbCupsMax) {
+				nbCupsMax = nbCupsFeasible[i];
+			}
 		}
-		for (int i = 0; i < NB_INGREDIENTS; i++) {
-			System.out.println("TODO"); // ???????
-		}
+		if (nbCupsMax < nbCups) {
+			System.out.printf("%nNo, I can make only %d cup(s) of coffee", 
+					nbCupsMax);
+		} else {
+			System.out.printf("%nYes, I can make that amount of coffee");
+			if (nbCupsMax > nbCups) {
+				System.out.printf(" (and even %d more than that)", 
+						nbCupsMax - nbCups);
+			}
+		} 
 	}
-	
-	
-	public static void printIngredients(int nbCups) {
-		int water = nbCups * WATER_PER_CUP;
-		int milk = nbCups * MILK_PER_CUP;
-		int coffee = nbCups * COFFEE_PER_CUP;
-		System.out.printf(REQUIRED_INGREDIENTS, nbCups, water, milk, coffee);
-	}
+
 
 }
