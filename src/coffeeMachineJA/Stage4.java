@@ -64,17 +64,36 @@ public class Stage4 {
 	final static int MILK = 540; // milliliters
 	final static int MONEY = 550; // dollars
 	final static int WATER = 400; // milliliters
+	// We may add resources to the machine, but MONEY needs to be the last.
 	static int[] machineStock = {WATER, MILK, COFFEE_BEANS, DISPO_CUPS, MONEY}; 
-	final static String MENU_TOP = "Write action (buy, fill, take):";
+
+	// 1 - Top menu variables
+	final static String MENU_TOP = "%nWrite action (buy, fill, take):%n";
 	final static String MENU_0 = "buy";
 	final static String MENU_1 = "fill";
 	final static String MENU_2 = "take";
-	final static String MENU_BUY = "What do you want to buy? 1 - espresso, "
-			+ "2 - latte, 3 - cappuccino:";
-	final static String MENU_FILL = "Write how many %s you want to add:";
 	final static String MENU_STATUS = "The coffee machine has:%n"
 			+ "%d ml of water %n%d ml of milk %n%d g of coffee beans %n"
-			+ "%d disposable cups %n$%d of money %n";
+			+ "%d disposable cups %n$%d of money %n";	
+
+	// 2 - "buy" menu variables
+	final static String MENU_BUY = "What do you want to buy? 1 - espresso, "
+			+ "2 - latte, 3 - cappuccino:%n";
+	// DRINK_X variables are made of: water, milk, coffee beans, cups, money
+	final static int[] DRINK_1 = {-250, 0, -16, -1, 4}; // Espresso
+	final static int[] DRINK_2 = {-350, -75, -20, -1, 7}; // Latte
+	final static int[] DRINK_3 = {-200, -100, -12, -1, 6}; // Cappuccino
+	final static int[][] LIST_DRINKS = {DRINK_1, DRINK_2, DRINK_3};
+	final static byte NB_DRINKS = 3;
+
+	// 3 - "fill" menu variables
+	final static String MENU_FILL = "Write how many %s you want to add:%n";
+	final static String[] LIST_FILL = {
+			"ml of water", "ml of milk", "grams of coffee beans", 
+	"disposable cups of coffee" };
+	
+	// 4 - "take" menu variables
+	final static String MENU_TAKE = "I gave you $%d%n%n";
 
 
 
@@ -83,28 +102,30 @@ public class Stage4 {
 		String userInput = menu();
 
 		switch (userInput) {
-			case MENU_0: 
-				buy();
-				break;
-			case MENU_1:
-				fill();
-				break;
-			case MENU_2:
-				take();
-				break;
-			default:
-				System.out.println("I only have limited skills ...");
+		case MENU_0: 
+			buy(); // Tested and validated
+			break;
+		case MENU_1:
+			fill(); // Tested and validated
+			break;
+		case MENU_2:
+			take(); // Tested and validated
+			break;
+		default:
+			System.out.println("I only have limited skills ...");
 
 		}
 
+		showStatus();
 	}
 
 
 	public static String menu() {
+		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		String userInput = "";
 		do {
-			System.out.println(MENU_TOP);
+			System.out.printf(MENU_TOP);
 			userInput = scanner.nextLine();
 		} while (!(Objects.equals(MENU_0, userInput) 
 				|| Objects.equals(MENU_1, userInput) 
@@ -122,17 +143,58 @@ public class Stage4 {
 
 
 	public static void buy() {
-		System.out.println("You want to buy");
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner(System.in);
+		byte userDrink = -1;
+
+		do {
+			System.out.println(MENU_BUY);
+			if (scanner.hasNextByte()) {
+				userDrink = scanner.nextByte();
+			} else {
+				scanner.next();
+			}
+		} while (userDrink <= 0 || userDrink > NB_DRINKS);
+		userDrink--; // from human counting to machine counting
+		updateStock(LIST_DRINKS[userDrink]);
 	}
 
 
 	public static void fill() {
-		System.out.println("You want to fill");
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner(System.in);
+		int qty = -1; // default invalid quantity
+		int[] addToStock = new int[machineStock.length];
+
+		for (int i = 0; i < LIST_FILL.length; i++) {			
+			do {
+				System.out.printf(MENU_FILL, LIST_FILL[i]);
+				if (scanner.hasNextInt()) {
+					qty = scanner.nextInt();
+				} else {
+					qty = -1; // Important to reset qty for next resources
+					scanner.next();
+				}
+			} while (qty < 0);
+			addToStock[i] = qty;
+		}
+		updateStock(addToStock);
 	}
 
 
 	public static void take() {
-		System.out.println("You want to take");
+		int cash = machineStock[machineStock.length - 1];
+		machineStock[machineStock.length - 1] = 0;
+		System.out.printf(MENU_TAKE, cash);
+	}
+
+
+	public static void updateStock(int[] input) {
+		if (input.length == machineStock.length) {
+			for (int i = 0; i < machineStock.length; i++) {
+				machineStock[i] += input[i];
+			}
+		} 
 	}
 
 }
