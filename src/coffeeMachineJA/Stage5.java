@@ -157,6 +157,7 @@ public class Stage5 {
 		} while (!validInput);
 		
 		if (!returnToMenu) {
+			// TO UPDATE
 			userDrink--; // from human counting to machine counting
 			updateStock(LIST_DRINKS[userDrink]);			
 		}
