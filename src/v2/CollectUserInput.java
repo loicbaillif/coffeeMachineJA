@@ -14,14 +14,34 @@ public class CollectUserInput {
 		lv1State.add("remaining");
 		lv1State.add("exit");
 		*/
-		String userInput = "";
 		Scanner scanner = new Scanner(System.in);
+		String userInput = "";
 		
-		System.out.println("Write action (buy, fill, take, remaining, exit)");
-		userInput = scanner.nextLine();
-		
-		// int test = lv1State.indexOf(userInput);
+		switch (currentState) {
+		case "generalMenu":
+			userInput = generalMenu(scanner);
+			break;
+		case "buyMenu":
+			userInput = buyMenu(scanner);
+			break;
+
+		default:
+			break;
+		}
 		
 		return userInput;
+	}
+	
+	public static String generalMenu(Scanner scanner) {		
+		System.out.println("Write action (buy, fill, take, remaining, exit)");
+		String userInput = scanner.nextLine();
+		
+		return userInput;
+	}
+	
+	public static String buyMenu(Scanner scanner) {
+		System.out.println("What do you want to buy? 1 - espresso, "
+				+ "2 - latte, 3 - cappuccino, back - to main menu:");
+		return scanner.nextLine();
 	}
 }
