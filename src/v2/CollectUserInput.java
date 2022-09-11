@@ -24,6 +24,9 @@ public class CollectUserInput {
 		case "buyMenu":
 			userInput = buyMenu(scanner);
 			break;
+		case "fillMenu":
+			userInput = fillMenu(scanner);
+			break;
 
 		default:
 			break;
@@ -43,5 +46,19 @@ public class CollectUserInput {
 		System.out.println("What do you want to buy? 1 - espresso, "
 				+ "2 - latte, 3 - cappuccino, back - to main menu:");
 		return scanner.nextLine();
+	}
+	
+	public static String fillMenu(Scanner scanner) {
+		// Variables
+		String[] ingredientList = {"ml of water", "mk of milk", 
+		                           "grams of coffee beans", "disposable cups"};
+		String userInput = "";
+		for (int i = 0; i < ingredientList.length; i++) {
+			System.out.printf("Write how many %s you want to add:\n> ");
+			userInput += scanner.nextLine();
+			userInput += ","; 
+		}
+		
+		return userInput;
 	}
 }
