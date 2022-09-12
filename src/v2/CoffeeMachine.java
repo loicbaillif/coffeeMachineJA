@@ -2,46 +2,46 @@ package v2;
 
 public class CoffeeMachine {
 	// Variables
-	private int water = 400;
-	private int milk = 540;
-	private int coffeeBeans = 120;
-	private int cups = 9;
-	private int cash = 550;
+	private static int water = 400;
+	private static int milk = 540;
+	private static int coffeeBeans = 120;
+	private static int cups = 9;
+	private static int cash = 550;
 	
 	// Getters & Setters
-	public int getWater() {
-		return this.water;
+	public static int getWater() {
+		return water;
 	}
-	public void addWater(int water) {
-		this.water += water;
-	}
-	
-	public int getMilk() {
-		return this.milk;
-	}
-	public void addMilk(int milk) {
-		this.milk += milk;
+	public static void addWater(int waterNew) {
+		water += waterNew;
 	}
 	
-	public int getCoffeeBeans() {
-		return this.coffeeBeans;
+	public static int getMilk() {
+		return milk;
 	}
-	public void addCoffeeBeans(int coffeeBeans) {
-		this.coffeeBeans += coffeeBeans;
-	}
-	
-	public int getCups() {
-		return this.cups;
-	}
-	public void addCups(int cups) {
-		this.cups += cups;
+	public static void addMilk(int milkNew) {
+		milk += milkNew;
 	}
 	
-	public int getCash() {
-		return this.cash;
+	public static int getCoffeeBeans() {
+		return coffeeBeans;
 	}
-	public void addCash(int cash) {
-		this.cash += cash;
+	public static void addCoffeeBeans(int coffeeBeansNew) {
+		coffeeBeans += coffeeBeansNew;
+	}
+	
+	public static int getCups() {
+		return cups;
+	}
+	public static void addCups(int cupsNew) {
+		cups += cupsNew;
+	}
+	
+	public static int getCash() {
+		return cash;
+	}
+	public static void addCash(int cashNew) {
+		cash += cashNew;
 	}
 	
 
