@@ -26,7 +26,10 @@ public class CollectUserInput {
 			break;
 		case "fill":
 			userInput = fillMenu(scanner);
-			break;			
+			break;	
+		case "remaining":
+			userInput = remainingMenu();
+			break;
 		case "exit":
 			userInput = "exit";
 			break;
@@ -66,5 +69,11 @@ public class CollectUserInput {
 		}
 
 		return userInput;
+	}
+	
+	public static String remainingMenu() {
+		DisplayStock.main();
+		
+		return "generalMenu";
 	}
 }
