@@ -1,7 +1,16 @@
 package v2;
 
+import java.util.Objects;
+
 public class PrepareDrink {
 	public static void main(String userChoice) {
+		// Treat the exit case first, to avoid useless variable instance.
+		if (Objects.equals(userChoice, "back")) {
+			System.out.println("Okay, let's go back.");
+			return;
+		} 
+		
+		
 		// Drinks needs (water, milk, coffeeBeans, cup, cash)
 		final int[] espresso = new int[] {-250, 0, -16, -1, 4};
 		final int[] latte = new int[] {-350, -75, -20, -1, 7};
@@ -14,13 +23,10 @@ public class PrepareDrink {
 				CoffeeMachine.getCoffeeBeans(), 
 				CoffeeMachine.getCups()
 		};
-		String[] drinks = {"unknown", "espresso", "latte", "cappuccino"}; 
+		String[] drinks = {"surprise", "espresso", "latte", "cappuccino"}; 
 		String[] ingredients = {"water", "milk", "coffee beans", "cups"};
-		boolean drinkFeasible = false;
-
-		if (userChoice == "back") {
-			return;
-		} 
+		String unsufficientStock = "Sorry, not enough %s%n";
+		String prepareDrink = "I have enough resources, making you a %s%n";
 		
 		// Pick values corresponding to user choice
 		switch (userChoice) {
@@ -35,27 +41,22 @@ public class PrepareDrink {
 			break;
 
 		default:
+			userChoice = "0";
 			drink = unknown;
 			break;
 		}
 		
-		String confirmationMessage = "";
-		
 		// Ensure the machine has enough resources
 		for (int i = 0; i < machineStock.length; i++) {
 			if (machineStock[i] + drink[i] < 0) {
-				System.out.printf("Sorry, not enough %s%n", ingredients[i]);
+				System.out.printf(unsufficientStock, ingredients[i]);
 				return;
 			}
 		}
 		
 		// Enough stock in the machine, we can prepare the coffee
-		System.out.printf("I have enough resources, making you a %s%n", drinks[Integer.parseInt(userChoice)]);
-		CoffeeMachine.addWater(drink[0]);
-		CoffeeMachine.addMilk(drink[1]);
-		CoffeeMachine.addCoffeeBeans(drink[2]);
-		CoffeeMachine.addCups(drink[3]);
-		CoffeeMachine.addCash(drink[4]);
+		System.out.printf(prepareDrink, drinks[Integer.parseInt(userChoice)]);
+		CoffeeMachine.updateStock(drink);
 
 	}
 }
