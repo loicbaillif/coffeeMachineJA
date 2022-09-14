@@ -1,5 +1,7 @@
 package v2;
 
+import java.util.Objects;
+
 public class CoffeeMachine {
 	// Variables
 	private static int water = 400;
@@ -63,7 +65,7 @@ public class CoffeeMachine {
 	public static void main(String[] args) {
 		System.out.println("***** Coffee Machine V2 *****");
 		String currentState = "generalMenu";
-		while (currentState != "exit") {
+		while (!Objects.equals(currentState, "exit")) {
 			currentState = CollectUserInput.main(currentState);
 		}
 		

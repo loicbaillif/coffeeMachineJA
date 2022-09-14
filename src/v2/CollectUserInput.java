@@ -9,15 +9,15 @@ public class CollectUserInput {
 		String userInput = "";
 
 		switch (currentState) {
-		case "generalMenu":
-			userInput = generalMenu(scanner);
-			break;
 		case "buy":
 			userInput = buyMenu(scanner);
 			break;
 		case "fill":
 			userInput = fillMenu(scanner);
 			break;	
+		case "take":
+			userInput = takeMenu(scanner);
+			break;
 		case "remaining":
 			userInput = remainingMenu();
 			break;
@@ -25,6 +25,7 @@ public class CollectUserInput {
 			userInput = "exit";
 			break;
 
+		case "generalMenu":
 		default:
 			userInput = generalMenu(scanner);
 			break;
@@ -48,7 +49,7 @@ public class CollectUserInput {
 
 	public static String fillMenu(Scanner scanner) {
 		// Variables
-		String[] ingredientList = {"ml of water", "mk of milk", 
+		String[] ingredientList = {"ml of water", "ml of milk", 
 				"grams of coffee beans", "disposable cups"};
 		int[] addedResources = new int[] {0, 0, 0, 0, 0};  // Cash refill always remains at 0
 		for (int i = 0; i < ingredientList.length; i++) {
@@ -65,6 +66,14 @@ public class CollectUserInput {
 		CoffeeMachine.updateStock(addedResources);
 		System.out.println("The coffee machine has been refilled.");
 
+		return "generalMenu";
+	}
+	
+	public static String takeMenu(Scanner scanner) {
+		int machineCash = CoffeeMachine.getCash();
+		System.out.printf("I gave you $%s%n", machineCash);
+		CoffeeMachine.addCash(-machineCash);
+		
 		return "generalMenu";
 	}
 	
