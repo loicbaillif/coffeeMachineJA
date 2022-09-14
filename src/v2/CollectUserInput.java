@@ -1,19 +1,10 @@
 package v2;
 
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CollectUserInput {
 	public static String main(String currentState) {
 		// Variables
-		/*
-		ArrayList<String> lv1State = new ArrayList<String>();
-		lv1State.add("buy");
-		lv1State.add("fill");
-		lv1State.add("take");
-		lv1State.add("remaining");
-		lv1State.add("exit");
-		 */
 		Scanner scanner = new Scanner(System.in);
 		String userInput = "";
 
@@ -59,16 +50,22 @@ public class CollectUserInput {
 		// Variables
 		String[] ingredientList = {"ml of water", "mk of milk", 
 				"grams of coffee beans", "disposable cups"};
-		String userInput = "";
+		int[] addedResources = new int[] {0, 0, 0, 0, 0};  // Cash refill always remains at 0
 		for (int i = 0; i < ingredientList.length; i++) {
 			System.out.printf("Write how many %s you want to add:\n> ", ingredientList[i]);
-			userInput += scanner.nextLine();
-			if (i != ingredientList.length - 1) {
-				userInput += ","; 
+			
+			if (scanner.hasNextInt()) {
+				addedResources[i] = scanner.nextInt();
+			} else {
+				addedResources[i] = 0;
+				scanner.nextLine();
 			}
 		}
+		
+		CoffeeMachine.updateStock(addedResources);
+		System.out.println("The coffee machine has been refilled.");
 
-		return userInput;
+		return "generalMenu";
 	}
 	
 	public static String remainingMenu() {
